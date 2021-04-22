@@ -1,0 +1,34 @@
+#!/usr/bin/python3
+
+"""
+    Used to simulate loan interests.
+    Usage: compuloan $AMOUNT $TAEG $YEAR_NUM
+"""
+
+import sys
+
+try:
+    AMOUNT = float(sys.argv[1])	# Capitale Erogato
+    TAEG   = float(sys.argv[2])	# TAEG
+    TIME   = float(sys.argv[3])	# number of years
+except:
+    print("Usage: \ncompuloan $AMOUNT $TAEG $YEAR_NUM\n")
+    exit()
+
+
+numberOfRates = TIME*12
+TAEG 		  = TAEG/100			# TAEG in forma decimale
+monthlyAPR    = TAEG/12
+discountFactor = ( (1 + monthlyAPR)**numberOfRates - 1)/(monthlyAPR * (1 + monthlyAPR)**numberOfRates )
+
+loanPayment = AMOUNT/discountFactor
+totalAmount = loanPayment * numberOfRates
+interest    = totalAmount - AMOUNT
+
+print("Base amount:  " + str(AMOUNT))
+print("TAEG:         " + str(TAEG*100))
+print("Loan years:   " + str(TIME))
+print(" ")
+print("Monthly rate: " + str(loanPayment))
+print("Interest:     " + str(interest))
+print("Total amount: " + str(totalAmount))
